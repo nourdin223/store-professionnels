@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BILALE SPORT — Espadrilles de Sport</title>
+<meta name="description" content="BILALE SPORT — chaussures de course et d'entraînement à Casablanca. Commande directe par WhatsApp.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- GLightbox -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+<style>
+/* =========================================================
+   TOKENS
+========================================================= */
+:root{
+    --asphalt:#12151b;
+    --asphalt-2:#1b1f27;
+    --chalk:#f6f4ef;
+    --chalk-dim:#e9e6de;
+    --track:#e2461f;
+    --track-dark:#b93619;
+    --signal:#f4c430;
+    --steel:#8b93a3;
+    --ink:#14171d;
+    --line:rgba(255,255,255,.10);
+    --line-dark:rgba(20,23,29,.10);
+
+    --display:'Oswald', system-ui, sans-serif;
+    --body:'Inter', system-ui, sans-serif;
+    --mono:'JetBrains Mono', monospace;
+
+    --container:1200px;
+    --radius:4px;
+    --ease:cubic-bezier(.4,0,.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    background:var(--chalk);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;}
+:focus-visible{outline:3px solid var(--track);outline-offset:2px;}
+
+@media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+
+.wrap{max-width:var(--container);margin:0 auto;padding:0 24px;}
+
+/* Lane-line divider — a recurring signature motif (dashed track lane markings) */
+.lane-divider{
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--line-dark) 0 22px, transparent 22px 40px);
+}
+.lane-divider.on-dark{
+    background:repeating-linear-gradient(90deg, var(--line) 0 22px, transparent 22px 40px);
+}
+
+.eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--track);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.eyebrow::before{
+    content:"";
+    width:22px;height:2px;
+    background:var(--track);
+    display:inline-block;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+.header{
+    position:sticky;top:0;left:0;width:100%;z-index:1000;
+    height:76px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 5%;
+    background:rgba(18,21,27,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+}
+.logo{
+    font-family:var(--display);
+    color:var(--chalk);
+    font-size:1.35rem;
+    font-weight:600;
+    letter-spacing:.03em;
+    text-decoration:none;
+    text-transform:uppercase;
+    white-space:nowrap;
+}
+.logo span{color:var(--track);}
+
+.navbar{display:flex;align-items:center;gap:36px;}
+.navbar a{
+    position:relative;
+    color:var(--chalk-dim);
+    font-family:var(--mono);
+    font-size:.78rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:color .25s var(--ease);
+}
+.navbar a::before{
+    content:"0" attr(data-i) " / ";
+    color:var(--track);
+    opacity:.7;
+}
+.navbar a::after{
+    content:"";
+    position:absolute;left:0;bottom:-8px;width:0;height:2px;
+    background:var(--track);
+    transition:width .3s var(--ease);
+}
+.navbar a:hover{color:var(--chalk);}
+.navbar a:hover::after{width:100%;}
+
+#check{display:none;}
+.icons{display:none;font-size:1.8rem;color:var(--chalk);cursor:pointer;}
+#close-icon{display:none;}
+
+@media (max-width:900px){
+    .header{padding:0 4%;}
+    .navbar{gap:22px;}
+}
+@media (max-width:740px){
+    .icons{display:block;}
+    #check:checked ~ .icons #menu-icon{display:none;}
+    #check:checked ~ .icons #close-icon{display:block;}
+    .navbar{
+        position:absolute;top:76px;left:0;width:100%;
+        background:var(--asphalt);
+        flex-direction:column;align-items:flex-start;gap:0;
+        max-height:0;overflow:hidden;
+        transition:max-height .4s var(--ease);
+        border-bottom:1px solid var(--line);
+    }
+    #check:checked ~ .navbar{max-height:400px;}
+    .navbar a{
+        width:100%;padding:18px 6%;
+        border-bottom:1px solid var(--line);
+        opacity:0;transform:translateY(-12px);
+        transition:opacity .3s var(--ease), transform .3s var(--ease);
+    }
+    #check:checked ~ .navbar a{opacity:1;transform:translateY(0);transition-delay:calc(.07s * var(--i));}
+    .navbar a::after{display:none;}
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+.hero{
+    position:relative;
+    background:var(--asphalt);
+    color:var(--chalk);
+    overflow:hidden;
+    padding:110px 5% 90px;
+}
+.hero-track{
+    position:absolute;inset:0;
+    background:
+        repeating-linear-gradient(100deg,
+            transparent 0 156px,
+            rgba(255,255,255,.05) 156px 158px);
+    -webkit-mask-image:linear-gradient(180deg, transparent, black 35%, black 80%, transparent);
+            mask-image:linear-gradient(180deg, transparent, black 35%, black 80%, transparent);
+    pointer-events:none;
+}
+.hero-inner{
+    position:relative;
+    max-width:var(--container);
+    margin:0 auto;
+}
+.hero .eyebrow{margin-bottom:22px;}
+.hero h1{
+    font-family:var(--display);
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:clamp(2.4rem, 6.4vw, 5.2rem);
+    line-height:.98;
+    letter-spacing:.01em;
+    max-width:14ch;
+}
+.hero h1 em{
+    font-style:normal;
+    color:var(--track);
+}
+.hero p{
+    margin-top:26px;
+    max-width:46ch;
+    color:var(--steel);
+    font-size:1.05rem;
+}
+.hero-cta{
+    margin-top:40px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+}
+.btn{
+    font-family:var(--mono);
+    font-size:.82rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:15px 28px;
+    border-radius:var(--radius);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+}
+.btn-primary{background:var(--track);color:var(--chalk);}
+.btn-primary:hover{background:var(--track-dark);transform:translateY(-2px);}
+.btn-ghost{border-color:var(--line);color:var(--chalk);}
+.btn-ghost:hover{border-color:var(--chalk);transform:translateY(-2px);}
+
+.hero-stats{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    gap:50px;
+    border-top:1px solid var(--line);
+    padding-top:28px;
+    max-width:640px;
+}
+.hero-stats div b{
+    display:block;
+    font-family:var(--mono);
+    font-size:1.5rem;
+    color:var(--chalk);
+}
+.hero-stats div span{
+    font-size:.76rem;
+    color:var(--steel);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+}
+
+/* =========================================================
+   SECTION HEADS
+========================================================= */
+.section{padding:90px 5%;}
+.section-head{
+    max-width:var(--container);
+    margin:0 auto 44px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:20px;
+}
+.section-head h2{
+    font-family:var(--display);
+    text-transform:uppercase;
+    font-weight:600;
+    font-size:clamp(1.8rem, 3.6vw, 2.6rem);
+    margin-top:10px;
+}
+.section-head p{
+    max-width:40ch;
+    color:var(--steel);
+    font-size:.95rem;
+}
+.on-dark .section-head p{color:var(--steel);}
+.on-light .section-head p{color:#5a5f6b;}
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+.on-light{background:var(--chalk);color:var(--ink);}
+
+.products-container{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:26px;
+}
+
+.product-card{
+    position:relative;
+    background:#fff;
+    border:1px solid #e7e4db;
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 22px 40px -18px rgba(20,23,29,.28);
+}
+
+/* Signature: race-bib tag, pinned at an angle, showing the real SKU */
+.bib{
+    position:absolute;
+    top:14px;left:-8px;
+    z-index:5;
+    background:var(--asphalt);
+    color:var(--chalk);
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.05em;
+    padding:5px 14px 5px 18px;
+    transform:rotate(-4deg);
+    box-shadow:0 6px 14px -6px rgba(0,0,0,.5);
+}
+.bib::after{
+    content:"";
+    position:absolute;top:50%;left:6px;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--track);
+    transform:translateY(-50%);
+    box-shadow:0 0 0 2px rgba(226,70,31,.3);
+}
+.badge-promo{
+    position:absolute;
+    top:14px;right:14px;
+    z-index:5;
+    background:var(--signal);
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    padding:4px 10px;
+    border-radius:20px;
+    text-transform:uppercase;
+}
+
+.product-image{width:100%;height:230px;overflow:hidden;background:#f0eee7;}
+.product-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.product-card:hover .product-image img{transform:scale(1.06);}
+
+.product-info{padding:20px 20px 22px;display:flex;flex-direction:column;flex-grow:1;}
+.brand{
+    font-family:var(--mono);
+    font-size:.68rem;
+    color:var(--track);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-weight:700;
+}
+.product-title{
+    font-family:var(--display);
+    font-size:1.15rem;
+    font-weight:500;
+    text-transform:uppercase;
+    margin:6px 0 8px;
+}
+.product-description{
+    font-size:.86rem;
+    color:#666;
+    margin-bottom:18px;
+    line-height:1.55;
+}
+.product-price{margin-top:auto;margin-bottom:14px;display:flex;align-items:baseline;gap:10px;}
+.price{font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--ink);}
+.old-price{font-family:var(--mono);font-size:.85rem;color:#aaa;text-decoration:line-through;}
+
+.btn-add-cart{
+    width:100%;padding:13px;
+    background:var(--ink);color:#fff;
+    border:none;border-radius:var(--radius);
+    font-family:var(--mono);
+    font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    transition:background .25s var(--ease), transform .2s var(--ease);
+}
+.btn-add-cart:hover{background:var(--track);transform:translateY(-2px);}
+
+/* =========================================================
+   GALLERY
+========================================================= */
+.on-dark{background:var(--asphalt);color:var(--chalk);}
+.on-dark .brand,.on-dark .eyebrow{color:var(--track);}
+
+.gallery-grid{
+    max-width:var(--container);margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+    gap:18px;
+}
+.gallery-card{
+    position:relative;border-radius:var(--radius);overflow:hidden;
+    aspect-ratio:4/3;background:var(--asphalt-2);
+    border:1px solid var(--line);
+}
+.gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.gallery-card:hover img{transform:scale(1.08);}
+.gallery-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(18,21,27,.85), transparent 60%);
+    display:flex;align-items:flex-end;justify-content:space-between;
+    padding:14px;
+    opacity:0;transition:opacity .3s var(--ease);
+    color:var(--chalk);
+    font-family:var(--mono);font-size:.78rem;
+}
+.gallery-card:hover .gallery-overlay{opacity:1;}
+.gallery-overlay i{color:var(--track);font-size:1.1rem;}
+
+/* =========================================================
+   TESTIMONIALS
+========================================================= */
+.testimonials{background:var(--chalk-dim);}
+.testi-grid{
+    max-width:var(--container);margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:22px;
+}
+.t-card{
+    background:#fff;
+    border:1px solid #e2ded3;
+    border-left:3px solid var(--track);
+    border-radius:var(--radius);
+    padding:26px;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.t-card:hover{transform:translateY(-4px);box-shadow:0 18px 34px -20px rgba(20,23,29,.3);}
+.t-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.t-photo{height:46px;width:46px;min-width:46px;border-radius:50%;overflow:hidden;border:2px solid var(--track);}
+.t-photo img{width:100%;height:100%;object-fit:cover;}
+.t-name{font-family:var(--display);font-weight:600;font-size:.95rem;text-transform:uppercase;}
+.t-role{font-family:var(--mono);font-size:.72rem;color:var(--steel-2,#8a8f9c);color:#8a8f9c;letter-spacing:.04em;}
+.t-stars{color:var(--signal);font-size:.78rem;margin-top:3px;}
+.t-desc{font-size:.88rem;color:#4c4f57;line-height:1.65;}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+.footer{
+    background:var(--asphalt);
+    color:var(--chalk-dim);
+    padding:70px 5% 30px;
+}
+.footer-grid{
+    max-width:var(--container);margin:0 auto;
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1.2fr;
+    gap:40px;
+}
+.footer-brand .logo{margin-bottom:14px;display:inline-block;}
+.footer-brand p{color:var(--steel);font-size:.88rem;max-width:32ch;}
+.footer-col h4{
+    font-family:var(--mono);
+    font-size:.74rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--track);
+    margin-bottom:18px;
+}
+.footer-col ul{list-style:none;}
+.footer-col ul li:not(:last-child){margin-bottom:10px;}
+.footer-col ul li a{
+    font-size:.9rem;color:var(--chalk-dim);text-decoration:none;
+    transition:color .25s var(--ease), padding-left .25s var(--ease);
+}
+.footer-col ul li a:hover{color:var(--track);padding-left:4px;}
+
+.map-container{
+    margin-top:16px;border-radius:var(--radius);overflow:hidden;
+    border:1px solid var(--line);
+}
+.map-container iframe{width:100%;height:150px;display:block;border:none;filter:grayscale(.3) contrast(1.1);}
+
+.links{display:flex;gap:10px;margin-top:16px;}
+.links a{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:40px;width:40px;border-radius:50%;
+    border:1px solid var(--line);
+    color:var(--chalk);text-decoration:none;
+    transition:.3s var(--ease);
+}
+.links a:hover{background:var(--track);border-color:var(--track);transform:translateY(-3px);}
+
+.footer-bottom{
+    max-width:var(--container);margin:50px auto 0;
+    padding-top:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-family:var(--mono);font-size:.72rem;color:var(--steel);
+}
+
+@media (max-width:900px){
+    .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:555px){
+    .footer-grid{grid-template-columns:1fr;}
+    .section{padding:60px 5%;}
+    .hero{padding:90px 5% 60px;}
+    .hero-stats{grid-template-columns:1fr 1fr;gap:26px;}
+}
+
+/* =========================================================
+   WHATSAPP FLOAT
+========================================================= */
+.whatsapp-float{
+    position:fixed;width:56px;height:56px;bottom:20px;right:20px;
+    background:#25d366;color:#fff;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;text-decoration:none;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+    z-index:9999;
+    transition:transform .3s var(--ease);
+}
+.whatsapp-float:hover{transform:scale(1.1);}
+.whatsapp-float::before{
+    content:"";
+    position:absolute;inset:-4px;border-radius:50%;
+    border:2px solid #25d366;
+    opacity:.6;
+    animation:pulse-ring 2.4s var(--ease) infinite;
+}
+@keyframes pulse-ring{
+    0%{transform:scale(.9);opacity:.6;}
+    80%{transform:scale(1.5);opacity:0;}
+    100%{opacity:0;}
+}
+
+
+/* =========================================================
+   SHOPPING CART / WHATSAPP CHECKOUT
+========================================================= */
+.cart-button{position:relative;display:flex;align-items:center;gap:9px;background:var(--track);color:#fff;border:0;padding:10px 15px;border-radius:var(--radius);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:.25s var(--ease);}
+.cart-button:hover{background:var(--track-dark);transform:translateY(-2px);}
+.cart-button b{min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:#fff;color:var(--track);border-radius:50%;font-size:.65rem;}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.58);backdrop-filter:blur(3px);z-index:10000;opacity:0;visibility:hidden;transition:.3s ease;}
+.cart-overlay.active{opacity:1;visibility:visible;}
+.cart-drawer{position:fixed;top:0;right:0;width:min(460px,100%);height:100vh;background:var(--chalk);z-index:10001;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-15px 0 50px rgba(0,0,0,.25);}
+.cart-drawer.active{transform:translateX(0);}
+.cart-header{display:flex;justify-content:space-between;align-items:center;padding:25px 24px;background:var(--asphalt);color:var(--chalk);border-bottom:1px solid var(--line);}
+.cart-header h2{font-family:var(--display);text-transform:uppercase;font-size:1.8rem;line-height:1;margin-top:7px;}
+.cart-close{width:42px;height:42px;border:1px solid var(--line);background:transparent;color:var(--chalk);cursor:pointer;font-size:1.1rem;}
+.cart-close:hover{background:var(--track);border-color:var(--track);}
+.cart-items{flex:1;overflow-y:auto;padding:18px 20px;}
+.cart-item{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:start;background:#fff;border:1px solid #e4e1d8;padding:11px;margin-bottom:11px;}
+.cart-item-image{width:76px;height:76px;object-fit:cover;}
+.cart-item-info h4{font-family:var(--display);text-transform:uppercase;font-size:.95rem;line-height:1.1;margin-bottom:5px;}
+.cart-item-price,.cart-item-subtotal{font-family:var(--mono);font-size:.72rem;}
+.cart-item-price{color:var(--track);font-weight:700;}
+.cart-item-subtotal{color:#666;margin-top:5px;}
+.quantity-control{display:flex;align-items:center;gap:7px;margin-top:9px;}
+.quantity-control button{width:25px;height:25px;border:1px solid #ddd;background:#f7f5ef;cursor:pointer;font-weight:bold;}
+.quantity-control span{min-width:22px;text-align:center;font-family:var(--mono);font-size:.75rem;}
+.remove-item{border:0;background:transparent;color:#999;cursor:pointer;font-size:.9rem;}
+.remove-item:hover{color:var(--track);}
+.cart-empty{display:none;flex:1;padding:35px 25px;text-align:center;align-items:center;justify-content:center;flex-direction:column;}
+.cart-empty.active{display:flex;}
+.cart-empty i{font-size:3rem;color:var(--track);margin-bottom:18px;}
+.cart-empty h3{font-family:var(--display);text-transform:uppercase;font-size:1.5rem;}
+.cart-empty p{color:#777;font-size:.85rem;max-width:30ch;margin:10px auto 20px;}
+#continueShopping{background:var(--ink);color:#fff;border:0;padding:12px 20px;font-family:var(--mono);font-size:.72rem;cursor:pointer;}
+.cart-footer{padding:18px 20px;background:#fff;border-top:1px solid #ddd;}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.cart-total-row span{font-family:var(--mono);text-transform:uppercase;font-size:.8rem;}
+.cart-total-row strong{font-family:var(--mono);font-size:1.25rem;}
+.customer-form{display:grid;gap:9px;margin-bottom:12px;}
+.customer-form input,.customer-form textarea,.customer-form select{width:100%;padding:11px 12px;border:1px solid #ddd;background:#faf9f5;color:var(--ink);font:.78rem var(--body);border-radius:var(--radius);outline:none;}
+.customer-form textarea{min-height:65px;resize:vertical;}
+.customer-form input:focus,.customer-form textarea:focus,.customer-form select:focus{border-color:var(--track);}
+.whatsapp-checkout{width:100%;padding:15px;border:0;background:#25d366;color:#fff;font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.25s ease;}
+.whatsapp-checkout:hover{background:#1ebe5d;transform:translateY(-2px);}
+.clear-cart{width:100%;margin-top:8px;padding:9px;background:transparent;border:0;color:#888;font-family:var(--mono);font-size:.68rem;cursor:pointer;}
+.clear-cart:hover{color:var(--track);}
+@media(max-width:740px){.cart-button span{display:none}.cart-button{padding:10px 12px}.cart-item{grid-template-columns:65px 1fr auto}.cart-item-image{width:65px;height:65px}.cart-header{padding:22px 18px}.cart-items,.cart-footer{padding-left:16px;padding-right:16px}}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="header">
+    <a href="#home" class="logo">BILALE<span>SPORT</span></a>
+
+    <input type="checkbox" id="check">
+    <label for="check" class="icons">
+        <i class="bx bx-menu" id="menu-icon">☰</i>
+        <i class="bx bx-x" id="close-icon">✕</i>
+    </label>
+
+    <nav class="navbar">
+        <a href="#home" data-i="1" style="--i:0;">Accueil</a>
+        <a href="#products" data-i="2" style="--i:1;">Produits</a>
+        <a href="#gallery" data-i="3" style="--i:2;">Galerie</a>
+        <a href="#avis" data-i="4" style="--i:3;">Avis</a>
+        <a href="#contact" data-i="5" style="--i:4;">Contact</a>
+    </nav>
+
+    <button class="cart-button" id="cartButton" aria-label="Panier">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Panier</span>
+        <b id="cartCount">0</b>
+    </button>
+   
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+    <div class="hero-track" aria-hidden="true"></div>
+    <div class="hero-inner">
+        <span class="eyebrow">Casablanca · Depuis la ligne de départ</span>
+        <h1>Courez plus vite. <em>Allez plus loin.</em></h1>
+        <p>Chaussures de course et d'entraînement sélectionnées pour la performance, le confort et la durabilité — livrées où que vous soyez, commande directe sur WhatsApp.</p>
+        <div class="hero-cta">
+            <a href="#products" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i> Voir les produits</a>
+            <a href="https://wa.me/212676484479" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-whatsapp"></i> Commander sur WhatsApp</a>
+        </div>
+        <div class="hero-stats">
+            <div><b>04</b><span>Modèles en stock</span></div>
+            <div><b>100%</b><span>Paiement à la livraison</span></div>
+            <div><b>24h</b><span>Réponse WhatsApp</span></div>
+        </div>
+    </div>
+</section>
+
+<div class="lane-divider on-dark"></div>
+
+<!-- ================= PRODUITS ================= -->
+<section class="section on-light" id="products">
+    <div class="section-head">
+        <div>
+            <span class="eyebrow">Collection</span>
+            <h2>Espadrilles de sport</h2>
+        </div>
+        <p>Chaque modèle porte son propre numéro de série — la référence exacte à donner lors de votre commande.</p>
+    </div>
+
+    <div class="products-container">
+
+        <div class="product-card">
+            <span class="bib">TA01-R</span>
+            <span class="badge-promo">Promo</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Espadrille TA01-R Rouge, vue de profil">
+            </div>
+            <div class="product-info">
+                <span class="brand">Imperial</span>
+                <h3 class="product-title">TA01-R Rouge</h3>
+                <p class="product-description">Amorti EVA réactif, conçu pour la course sur route.</p>
+                <div class="product-price">
+                    <span class="price">199,00 MAD</span>
+                    <span class="old-price">299,00 MAD</span>
+                </div>
+                <button class="btn-add-cart" data-name="Espadrille TA01-R Rouge" data-price="199.00">
+                 Commander
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="bib">TA02-BC</span>
+            <span class="badge-promo">Promo</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500" alt="Espadrille TA02-BC Blanche, vue de profil">
+            </div>
+            <div class="product-info">
+                <span class="brand">Imperial</span>
+                <h3 class="product-title">TA02-BC Blanche</h3>
+                <p class="product-description">Tige en maille respirante, confort toute la journée.</p>
+                <div class="product-price">
+                    <span class="price">249,00 MAD</span>
+                </div>
+                <button class="btn-add-cart" data-name="Espadrille TA02-BC Blanche" data-price="249.00">
+                    Commander
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="bib">TA04-N</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500" alt="Espadrille TA04-N Noire, vue de profil">
+            </div>
+            <div class="product-info">
+                <span class="brand">Imperial</span>
+                <h3 class="product-title">TA04-N Noire</h3>
+                <p class="product-description">Semelle extérieure en caoutchouc résistant, antidérapante.</p>
+                <div class="product-price">
+                    <span class="price">349,00 MAD</span>
+                </div>
+                <button class="btn-add-cart" data-name="Espadrille TA04-N Noire" data-price="349.00">
+            Commander
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <span class="bib">NA01-R</span>
+            <span class="badge-promo">Promo</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=500" alt="Espadrille NA01-R Bleu, vue de profil">
+            </div>
+            <div class="product-info">
+                <span class="brand">Imperial</span>
+                <h3 class="product-title">NA01-R Bleu</h3>
+                <p class="product-description">Design ergonomique pour entraînements intensifs.</p>
+                <div class="product-price">
+                    <span class="price">399,00 MAD</span>
+                </div>
+                <button class="btn-add-cart" data-name="Espadrille NA01-R Bleu" data-price="399.00">
+                Commander
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= GALERIE ================= -->
+<section class="section on-dark" id="gallery">
+    <div class="section-head">
+        <div>
+            <span class="eyebrow">En piste</span>
+            <h2>Galerie</h2>
+        </div>
+        <p>Un aperçu de nos produits et de nos clients en action.</p>
+    </div>
+
+    <div class="gallery-grid">
+        <div class="gallery-card">
+            <a href="https://picsum.photos/1000/750?random=1" class="glightbox">
+                <img src="https://picsum.photos/400/300?random=1" alt="Photo de la galerie 1">
+                <div class="gallery-overlay"><span>01</span><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+        </div>
+        <div class="gallery-card">
+            <a href="https://picsum.photos/1000/750?random=2" class="glightbox">
+                <img src="https://picsum.photos/400/300?random=2" alt="Photo de la galerie 2">
+                <div class="gallery-overlay"><span>02</span><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+        </div>
+        <div class="gallery-card">
+            <a href="https://picsum.photos/1000/750?random=3" class="glightbox">
+                <img src="https://picsum.photos/400/300?random=3" alt="Photo de la galerie 3">
+                <div class="gallery-overlay"><span>03</span><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+        </div>
+        <div class="gallery-card">
+            <a href="https://picsum.photos/1000/750?random=4" class="glightbox">
+                <img src="https://picsum.photos/400/300?random=4" alt="Photo de la galerie 4">
+                <div class="gallery-overlay"><span>04</span><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+        </div>
+        <div class="gallery-card">
+            <a href="https://picsum.photos/1000/750?random=5" class="glightbox">
+                <img src="https://picsum.photos/400/300?random=5" alt="Photo de la galerie 5">
+                <div class="gallery-overlay"><span>05</span><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= AVIS ================= -->
+<section class="section testimonials" id="avis">
+    <div class="section-head">
+        <div>
+            <span class="eyebrow">Ligne d'arrivée</span>
+            <h2>Ce que disent nos clients</h2>
+        </div>
+        <p>Des retours réels de coureurs et de sportifs qui nous font confiance.</p>
+    </div>
+
+    <div class="testi-grid">
+        <div class="t-card">
+            <div class="t-head">
+                <div class="t-photo"><img src="https://i.pravatar.cc/100?img=11" alt="Photo de profil de Hakim"></div>
+                <div>
+                    <div class="t-name">Hakim</div>
+                    <div class="t-role">Athlète</div>
+                    <div class="t-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="t-desc">Excellent produit et très confortable. Je recommande cette boutique pour la qualité de ses chaussures.</p>
+        </div>
+
+        <div class="t-card">
+            <div class="t-head">
+                <div class="t-photo"><img src="https://i.pravatar.cc/100?img=12" alt="Photo de profil de Anas"></div>
+                <div>
+                    <div class="t-name">Anas</div>
+                    <div class="t-role">Chef de Projet</div>
+                    <div class="t-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="t-desc">Très bonne expérience. La chaussure est confortable, légère et adaptée au sport.</p>
+        </div>
+
+        <div class="t-card">
+            <div class="t-head">
+                <div class="t-photo"><img src="https://i.pravatar.cc/100?img=13" alt="Photo de profil de Brahime"></div>
+                <div>
+                    <div class="t-name">Brahime</div>
+                    <div class="t-role">Athlète</div>
+                    <div class="t-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="t-desc">Chaussures de très bonne qualité. Le design est moderne et le confort est excellent.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" id="contact">
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+            <a href="#home" class="logo">BILALE<span>SPORT</span></a>
+            <p>Chaussures de course et d'entraînement à Casablanca. Commandez directement sur WhatsApp, paiement à la livraison.</p>
+            <div class="links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/212676484479" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul>
+                <li><a href="#home">Accueil</a></li>
+                <li><a href="#products">Produits</a></li>
+                <li><a href="#gallery">Galerie</a></li>
+                <li><a href="#avis">Avis</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Aide</h4>
+            <ul>
+                <li><a href="https://wa.me/212676484479" target="_blank">Commander</a></li>
+                <li><a href="#">Livraison</a></li>
+                <li><a href="#">Retours</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Nous trouver</h4>
+            <p style="font-size:.88rem;color:var(--steel);">Casablanca, Maroc<br>+212 676 484 479</p>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26589.98703489983!2d-7.653372510255199!3d33.58588179347829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d30010aefb67%3A0x2d895313adb95273!2sCasa%20del%20Gusto%20-%20Casablanca!5e0!3m2!1sen!2sma!4v1784934127258!5m2!1sen!2sma"
+                    style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+                    title="Localisation BILALE SPORT sur Google Maps"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <span>© 2026 BILALE SPORT — Tous droits réservés</span>
+        <span>Casablanca, Maroc</span>
+        <span> store créé par
+    <a href="https://wa.me/212676484479"
+       target="_blank"
+       rel="noopener noreferrer">
+        NOUREDDINE Pro
+    </a></span>
+    </div>
+    
+</footer>
+
+
+<!-- ================= SHOPPING CART ================= -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Panier">
+    <div class="cart-header">
+        <div><span class="eyebrow">Votre sélection</span><h2>Mon panier</h2></div>
+        <button class="cart-close" id="cartClose" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Votre panier est vide</h3>
+        <p>Ajoutez vos produits préférés pour commencer votre commande.</p>
+        <button id="continueShopping">Continuer mes achats</button>
+    </div>
+    <div class="cart-footer" id="cartFooter">
+        <div class="cart-total-row"><span>Total</span><strong id="cartTotal">0,00 MAD</strong></div>
+        <div class="customer-form">
+            <input id="customerName" type="text" placeholder="Votre nom *" autocomplete="name">
+            <input id="customerPhone" type="tel" placeholder="Votre téléphone *" autocomplete="tel">
+            <input id="customerCity" type="text" placeholder="Ville *" autocomplete="address-level2">
+            <textarea id="customerAddress" placeholder="Adresse de livraison *" autocomplete="street-address"></textarea>
+            <select id="deliveryMethod"><option value="Livraison à domicile">Livraison à domicile</option><option value="Retrait sur place">Retrait sur place</option></select>
+        </div>
+        <button class="whatsapp-checkout" id="whatsappCheckout"><i class="fa-brands fa-whatsapp"></i> Commander sur WhatsApp</button>
+        <button class="clear-cart" id="clearCart"><i class="fa-solid fa-trash"></i> Vider le panier</button>
+    </div>
+</aside>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/212676484479" class="whatsapp-float" target="_blank" aria-label="Contacter sur WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- GLightbox JS -->
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof GLightbox !== "undefined") GLightbox({ selector: ".glightbox" });
+
+    const phone = "212676484479";
+    const STORAGE_KEY = "bilaleSportCart";
+    let cart = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+    const $ = id => document.getElementById(id);
+    const cartButton=$("cartButton"), cartDrawer=$("cartDrawer"), cartOverlay=$("cartOverlay"),
+          cartClose=$("cartClose"), cartItems=$("cartItems"), cartCount=$("cartCount"),
+          cartTotal=$("cartTotal"), cartEmpty=$("cartEmpty"), cartFooter=$("cartFooter"),
+          clearCart=$("clearCart"), checkout=$("whatsappCheckout"), continueShopping=$("continueShopping");
+
+    const customerName=$("customerName"), customerPhone=$("customerPhone"),
+          customerCity=$("customerCity"), customerAddress=$("customerAddress"),
+          deliveryMethod=$("deliveryMethod");
+
+    function saveCart(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+    function openCart(){ cartDrawer.classList.add("active"); cartOverlay.classList.add("active"); document.body.style.overflow="hidden"; }
+    function closeCart(){ cartDrawer.classList.remove("active"); cartOverlay.classList.remove("active"); document.body.style.overflow=""; }
+    function money(v){ return Number(v).toFixed(2).replace(".",",")+" MAD"; }
+    function esc(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+
+    cartButton.addEventListener("click",openCart);
+    cartClose.addEventListener("click",closeCart);
+    cartOverlay.addEventListener("click",closeCart);
+    continueShopping.addEventListener("click",closeCart);
+
+    document.querySelectorAll(".btn-add-cart").forEach(button=>{
+        button.addEventListener("click",()=>{
+            const card=button.closest(".product-card");
+            const name=button.dataset.name||"Produit";
+            const price=parseFloat(button.dataset.price)||0;
+            const image=card?.querySelector("img")?.src||"";
+            const sku=card?.querySelector(".bib")?.textContent.trim()||"";
+            const existing=cart.find(p=>p.name===name && p.sku===sku);
+            if(existing) existing.quantity++;
+            else cart.push({name,price,image,sku,quantity:1});
+            saveCart(); renderCart(); openCart();
+        });
+    });
+
+    function renderCart(){
+        cartItems.innerHTML="";
+        let total=0, qty=0;
+
+        cart.forEach((p,i)=>{
+            const subtotal=p.price*p.quantity;
+            total+=subtotal; qty+=p.quantity;
+            const item=document.createElement("div");
+            item.className="cart-item";
+            item.innerHTML=`
+                <img class="cart-item-image" src="${p.image}" alt="${esc(p.name)}">
+                <div class="cart-item-info">
+                    <h4>${esc(p.name)}</h4>
+                    ${p.sku?`<div class="cart-item-price">Réf: ${esc(p.sku)}</div>`:""}
+                    <div class="cart-item-price">${money(p.price)}</div>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-minus" data-index="${i}">−</button>
+                        <span>${p.quantity}</span>
+                        <button type="button" class="quantity-plus" data-index="${i}">+</button>
+                    </div>
+                    <div class="cart-item-subtotal">Sous-total : ${money(subtotal)}</div>
+                </div>
+                <button type="button" class="remove-item" data-index="${i}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>`;
+            cartItems.appendChild(item);
+        });
+
+        cartCount.textContent=qty;
+        cartTotal.textContent=money(total);
+
+        if(cart.length===0){
+            cartEmpty.classList.add("active"); cartFooter.style.display="none"; cartItems.style.display="none";
+        }else{
+            cartEmpty.classList.remove("active"); cartFooter.style.display="block"; cartItems.style.display="block";
+        }
+        bindCartActions();
+    }
+
+    function bindCartActions(){
+        document.querySelectorAll(".quantity-minus").forEach(b=>b.addEventListener("click",()=>{
+            const i=Number(b.dataset.index);
+            if(cart[i].quantity>1) cart[i].quantity--; else cart.splice(i,1);
+            saveCart(); renderCart();
+        }));
+        document.querySelectorAll(".quantity-plus").forEach(b=>b.addEventListener("click",()=>{
+            cart[Number(b.dataset.index)].quantity++;
+            saveCart(); renderCart();
+        }));
+        document.querySelectorAll(".remove-item").forEach(b=>b.addEventListener("click",()=>{
+            cart.splice(Number(b.dataset.index),1);
+            saveCart(); renderCart();
+        }));
+    }
+
+    clearCart.addEventListener("click",()=>{
+        if(!cart.length) return;
+        cart=[]; saveCart(); renderCart();
+    });
+
+    checkout.addEventListener("click",()=>{
+        if(!cart.length){ alert("Votre panier est vide."); return; }
+
+        const name=customerName.value.trim(), clientPhone=customerPhone.value.trim(),
+              city=customerCity.value.trim(), address=customerAddress.value.trim(),
+              delivery=deliveryMethod.value;
+
+        if(!name||!clientPhone||!city||!address){
+            alert("Veuillez remplir votre nom, téléphone, ville et adresse.");
+            return;
+        }
+
+        let total=0;
+        let message="Bonjour, je veux confirmer ma commande  :\n\n";
+        message+="👤 INFORMATIONS CLIENT\n";
+        message+=`Nom: ${name}\nTéléphone: ${clientPhone}\nVille: ${city}\nAdresse: ${address}\nLivraison: ${delivery}\n\n`;
+        message+="🛒 PRODUITS\n";
+
+        cart.forEach((p,i)=>{
+            const subtotal=p.price*p.quantity; total+=subtotal;
+            message+=`\n${i+1}. ${p.name}\n`;
+            if(p.sku) message+=`Référence: ${p.sku}\n`;
+            message+=`Prix: ${money(p.price)}\nQuantité: ${p.quantity}\nSous-total: ${money(subtotal)}\n`;
+        });
+
+        message+=`\n--------------------------\nTOTAL: ${money(total)}\n--------------------------\n\nMerci de confirmer ma commande.`;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,"_blank");
+    });
+
+    renderCart();
+});
+</script>
+
+</body>
+</html>
