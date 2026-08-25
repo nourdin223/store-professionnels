@@ -55,12 +55,12 @@
 
     <!-- كود الاتصال بـ Firebase وتأمين الجلسة -->
     <script type="module">
-        // 1. استيراد دوال Firebase المطلوبة للإصدار الجديد
+        // 1. استيراد الدوال المطلوبة مع إعداداتك الجديدة
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // 2. إعدادات مشروعك في Firebase
+        // 2. إعدادات مشروعك في Firebase التي أرسلتها
         const firebaseConfig = {
             apiKey: "AIzaSyBrH6eVkW4OnJHehLNaz2h3bglvUg6ukoA",
             authDomain: "storeproo.firebaseapp.com",
