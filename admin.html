@@ -2,40 +2,60 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة تحكم البائع - إضافة منتج</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البائع الآمنة</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background: #f4f4f9; padding: 20px; direction: rtl; }
-        .form-container { background: #fff; padding: 20px; max-width: 500px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        body { font-family: Tahoma, sans-serif; background: #f4f4f9; padding: 20px; direction: rtl; margin: 0; }
+        .container { max-width: 500px; margin: 40px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
+        button { background: #28a745; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
         button:hover { background: #218838; }
+        .hidden { display: none !important; }
+        .error { color: red; font-size: 14px; text-align: center; }
+        .success { color: green; font-size: 14px; text-align: center; font-weight: bold; }
+        .logout-btn { background: #dc3545; margin-top: 15px; }
+        .logout-btn:hover { background: #c82333; }
     </style>
 </head>
 <body>
 
-    <div class="form-container">
+    <!-- 1. شاشة تسجيل الدخول بالبريد وكلمة المرور -->
+    <div id="loginSection" class="container">
+        <h2>تسجيل دخول البائع</h2>
+        <p style="text-align: center; color: #666;">أدخل بريدك الإلكتروني وكلمة المرور الخاصة بالإدارة</p>
+        <input type="email" id="adminEmail" placeholder="البريد الإلكتروني للبائع" required>
+        <input type="password" id="adminPassword" placeholder="كلمة المرور" required>
+        <button id="loginBtn">دخول</button>
+        <p id="loginError" class="error"></p>
+    </div>
+
+    <!-- 2. لوحة التحكم (مخفية افتراضياً ولا تظهر إلا للمصادق عليهم) -->
+    <div id="adminDashboard" class="container hidden">
         <h2>لوحة التحكم: إضافة منتج جديد</h2>
         <form id="productForm">
             <label>اسم المنتج:</label>
-            <input type="text" id="productName" required>
+            <input type="text" id="productName" required placeholder="مثال: ساعة إلكترونية">
 
-            <label>سعر المنتج (د.م أو $):</label>
-            <input type="number" id="productPrice" required>
+            <label>سعر المنتج:</label>
+            <input type="number" id="productPrice" required placeholder="مثال: 200">
 
             <label>رابط صورة المنتج:</label>
-            <input type="url" id="productImage" placeholder="https://example.com/image.jpg" required>
+            <input type="url" id="productImage" required placeholder="https://... (رابط مباشر للصورة)">
 
             <label>وصف المنتج:</label>
-            <textarea id="productDesc" rows="4"></textarea>
+            <textarea id="productDesc" rows="3" placeholder="اكتب تفاصيل المنتج..."></textarea>
 
             <button type="submit">إضافة المنتج للمتجر</button>
         </form>
-        <p id="statusMsg" style="text-align:center; font-weight:bold;"></p>
+        <p id="statusMsg" class="success"></p>
+        
+        <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
     </div>
 
-    <!-- استدعاء مكتبة Firebase عبر CDN -->
-   <script type="module">
-  // Import the functions you need from the SDKs you need
+    <!-- كود الاتصال بـ Firebase وتأمين الجلسة -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -52,6 +72,81 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-</script>
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const loginSection = document.getElementById('loginSection');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginError = document.getElementById('loginError');
+
+        // مراقبة حالة المستخدم (إذا كان مسجلاً دخوله مسبقاً)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // المستخدم مسجل دخوله، أظهر لوحة التحكم
+                loginSection.classList.add('hidden');
+                adminDashboard.classList.remove('hidden');
+            } else {
+                // المستخدم غير مسجل، أظهر شاشة الدخول
+                loginSection.classList.remove('hidden');
+                adminDashboard.classList.add('hidden');
+            }
+        });
+
+        // عملية تسجيل الدخول
+        loginBtn.addEventListener('click', async () => {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            loginError.innerText = "";
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                console.error(error);
+                loginError.innerText = "فشل الدخول: تأكد من الإيميل أو كلمة المرور!";
+            }
+        });
+
+        // عملية تسجيل الخروج
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        // إضافة المنتج لقاعدة البيانات (مؤمنة بالكامل)
+        const form = document.getElementById('productForm');
+        const statusMsg = document.getElementById('statusMsg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const image = document.getElementById('productImage').value;
+            const description = document.getElementById('productDesc').value;
+
+            try {
+                await addDoc(collection(db, "products"), {
+                    name: name,
+                    price: price,
+                    image: image,
+                    description: description,
+                    createdAt: new Date()
+                });
+
+                statusMsg.innerText = "تم إضافة المنتج بنجاح وتحديث المتجر!";
+                form.reset();
+                setTimeout(() => { statusMsg.innerText = ""; }, 4000);
+            } catch (error) {
+                console.error("خطأ:", error);
+                statusMsg.style.color = "red";
+                statusMsg.innerText = "حدث خطأ أثناء الإضافة (تأكد من صلاحيات الحساب)!";
+            }
+        });
+    </script>
 </body>
 </html>
