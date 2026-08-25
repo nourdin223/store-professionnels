@@ -55,23 +55,23 @@
 
     <!-- كود الاتصال بـ Firebase وتأمين الجلسة -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        // 1. استيراد دوال Firebase المطلوبة للإصدار الجديد
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBrH6eVkW4OnJHehLNaz2h3bglvUg6ukoA",
-    authDomain: "storeproo.firebaseapp.com",
-    projectId: "storeproo",
-    storageBucket: "storeproo.firebasestorage.app",
-    messagingSenderId: "780069001386",
-    appId: "1:780069001386:web:677aa16ff49e2466ef98d3"
-  };
+        // 2. إعدادات مشروعك في Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBrH6eVkW4OnJHehLNaz2h3bglvUg6ukoA",
+            authDomain: "storeproo.firebaseapp.com",
+            projectId: "storeproo",
+            storageBucket: "storeproo.firebasestorage.app",
+            messagingSenderId: "780069001386",
+            appId: "1:780069001386:web:677aa16ff49e2466ef98d3"
+        };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+        // 3. تهيئة التطبيق
+        const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
@@ -84,11 +84,9 @@
         // مراقبة حالة المستخدم (إذا كان مسجلاً دخوله مسبقاً)
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // المستخدم مسجل دخوله، أظهر لوحة التحكم
                 loginSection.classList.add('hidden');
                 adminDashboard.classList.remove('hidden');
             } else {
-                // المستخدم غير مسجل، أظهر شاشة الدخول
                 loginSection.classList.remove('hidden');
                 adminDashboard.classList.add('hidden');
             }
@@ -117,7 +115,7 @@
             }
         });
 
-        // إضافة المنتج لقاعدة البيانات (مؤمنة بالكامل)
+        // إضافة المنتج لقاعدة البيانات
         const form = document.getElementById('productForm');
         const statusMsg = document.getElementById('statusMsg');
 
@@ -138,6 +136,7 @@
                     createdAt: new Date()
                 });
 
+                statusMsg.style.color = "green";
                 statusMsg.innerText = "تم إضافة المنتج بنجاح وتحديث المتجر!";
                 form.reset();
                 setTimeout(() => { statusMsg.innerText = ""; }, 4000);
