@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة تحكم البائع - إضافة منتج</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #f4f4f9; padding: 20px; direction: rtl; }
+        .form-container { background: #fff; padding: 20px; max-width: 500px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>لوحة التحكم: إضافة منتج جديد</h2>
+        <form id="productForm">
+            <label>اسم المنتج:</label>
+            <input type="text" id="productName" required>
+
+            <label>سعر المنتج (د.م أو $):</label>
+            <input type="number" id="productPrice" required>
+
+            <label>رابط صورة المنتج:</label>
+            <input type="url" id="productImage" placeholder="https://example.com/image.jpg" required>
+
+            <label>وصف المنتج:</label>
+            <textarea id="productDesc" rows="4"></textarea>
+
+            <button type="submit">إضافة المنتج للمتجر</button>
+        </form>
+        <p id="statusMsg" style="text-align:center; font-weight:bold;"></p>
+    </div>
+
+    <!-- استدعاء مكتبة Firebase عبر CDN -->
+   <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBrH6eVkW4OnJHehLNaz2h3bglvUg6ukoA",
+    authDomain: "storeproo.firebaseapp.com",
+    projectId: "storeproo",
+    storageBucket: "storeproo.firebasestorage.app",
+    messagingSenderId: "780069001386",
+    appId: "1:780069001386:web:677aa16ff49e2466ef98d3"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+</body>
+</html>
