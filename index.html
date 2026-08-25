@@ -591,6 +591,38 @@ a{color:inherit;}
 .clear-cart:hover{color:var(--track);}
 @media(max-width:740px){.cart-button span{display:none}.cart-button{padding:10px 12px}.cart-item{grid-template-columns:65px 1fr auto}.cart-item-image{width:65px;height:65px}.cart-header{padding:22px 18px}.cart-items,.cart-footer{padding-left:16px;padding-right:16px}}
 
+
+.products-loading{
+    grid-column:1/-1;
+    min-height:180px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:14px;
+    color:var(--steel);
+    font-family:var(--mono);
+    font-size:.8rem;
+    text-align:center;
+}
+.products-loading i{font-size:1.8rem;color:var(--track);}
+.products-error{
+    grid-column:1/-1;
+    padding:25px;
+    background:#fff;
+    border:1px solid #e7e4db;
+    border-left:3px solid var(--track);
+    color:#555;
+    text-align:center;
+}
+.products-empty{
+    grid-column:1/-1;
+    padding:40px 20px;
+    text-align:center;
+    color:#666;
+    font-family:var(--mono);
+}
+
 </style>
 </head>
 
@@ -653,131 +685,12 @@ a{color:inherit;}
         <p>Chaque modèle porte son propre numéro de série — la référence exacte à donner lors de votre commande.</p>
     </div>
 
-    <div class="products-container"><div id="products-grid" style="display: flex; flex-wrap: wrap; gap: 20px;">
-    <!-- ستظهر المنتجات هنا تلقائياً -->
-</div>
-
-
-
-        <div class="product-card">
-            <span class="bib">TA01-R</span>
-            <span class="badge-promo">Promo</span>
-            <div class="product-image">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Espadrille TA01-R Rouge, vue de profil">
-            </div>
-            <div class="product-info">
-                <span class="brand">Imperial</span>
-                <h3 class="product-title">TA01-R Rouge</h3>
-                <p class="product-description">Amorti EVA réactif, conçu pour la course sur route.</p>
-                <div class="product-price">
-                    <span class="price">199,00 MAD</span>
-                    <span class="old-price">299,00 MAD</span>
-                </div>
-                <button class="btn-add-cart" data-name="Espadrille TA01-R Rouge" data-price="199.00">
-                 Commander
-                </button>
-            </div>
+    <div class="products-container" id="products-grid">
+        <!-- Les produits sont chargés depuis Firebase -->
+        <div class="products-loading" id="productsLoading">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Chargement des produits...</span>
         </div>
-
-        <div class="product-card">
-            <span class="bib">TA02-BC</span>
-            <span class="badge-promo">Promo</span>
-            <div class="product-image">
-                <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500" alt="Espadrille TA02-BC Blanche, vue de profil">
-            </div>
-            <div class="product-info">
-                <span class="brand">Imperial</span>
-                <h3 class="product-title">TA02-BC Blanche</h3>
-                <p class="product-description">Tige en maille respirante, confort toute la journée.</p>
-                <div class="product-price">
-                    <span class="price">249,00 MAD</span>
-                </div>
-                <button class="btn-add-cart" data-name="Espadrille TA02-BC Blanche" data-price="249.00">
-                    Commander
-                </button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <span class="bib">TA04-N</span>
-            <div class="product-image">
-                <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500" alt="Espadrille TA04-N Noire, vue de profil">
-            </div>
-            <div class="product-info">
-                <span class="brand">Imperial</span>
-                <h3 class="product-title">TA04-N Noire</h3>
-                <p class="product-description">Semelle extérieure en caoutchouc résistant, antidérapante.</p>
-                <div class="product-price">
-                    <span class="price">349,00 MAD</span>
-                </div>
-                <button class="btn-add-cart" data-name="Espadrille TA04-N Noire" data-price="349.00">
-            Commander
-                </button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <span class="bib">NA01-R</span>
-            <span class="badge-promo">Promo</span>
-            <div class="product-image">
-                <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=500" alt="Espadrille NA01-R Bleu, vue de profil">
-            </div>
-            <div class="product-info">
-                <span class="brand">Imperial</span>
-                <h3 class="product-title">NA01-R Bleu</h3>
-                <p class="product-description">Design ergonomique pour entraînements intensifs.</p>
-                <div class="product-price">
-                    <span class="price">399,00 MAD</span>
-                </div>
-                <button class="btn-add-cart" data-name="Espadrille NA01-R Bleu" data-price="399.00">
-                Commander
-                </button>
-            </div>
-        </div>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyYourApiKeyHere...",
-        authDomain: "your-store.firebaseapp.com",
-        projectId: "your-store",
-        storageBucket: "your-store.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "1:123:web:abc"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function loadProducts() {
-        const grid = document.getElementById('products-grid');
-        grid.innerHTML = "جاري تحميل المنتجات...";
-        
-        try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            grid.innerHTML = ""; // مسح النص
-            
-            querySnapshot.forEach((doc) => {
-                const product = doc.data();
-                const productCard = `
-                    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 200px; text-align: center;">
-                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
-                        <h3>${product.name}</h3>
-                        <p style="color: green; font-weight: bold;">${product.price} د.م</p>
-                        <p>${product.description || ''}</p>
-                    </div>
-                `;
-                grid.innerHTML += productCard;
-            });
-        } catch (error) {
-            console.error("Error loading products:", error);
-            grid.innerHTML = "فشل تحميل المنتجات.";
-        }
-    }
-
-    loadProducts();
-</script>
     </div>
 </section>
 
@@ -923,7 +836,7 @@ a{color:inherit;}
     <div class="footer-bottom">
         <span>© 2026 BILALE SPORT — Tous droits réservés</span>
         <span>Casablanca, Maroc</span>
-        <span> store créé par
+        <span>Store créé par
     <a href="https://wa.me/212676484479"
        target="_blank"
        rel="noopener noreferrer">
@@ -969,137 +882,534 @@ a{color:inherit;}
 
 <!-- GLightbox JS -->
 <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    if (typeof GLightbox !== "undefined") GLightbox({ selector: ".glightbox" });
 
-    const phone = "212676484479";
-    const STORAGE_KEY = "bilaleSportCart";
-    let cart = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+<!-- Firebase + Store logic -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const $ = id => document.getElementById(id);
-    const cartButton=$("cartButton"), cartDrawer=$("cartDrawer"), cartOverlay=$("cartOverlay"),
-          cartClose=$("cartClose"), cartItems=$("cartItems"), cartCount=$("cartCount"),
-          cartTotal=$("cartTotal"), cartEmpty=$("cartEmpty"), cartFooter=$("cartFooter"),
-          clearCart=$("clearCart"), checkout=$("whatsappCheckout"), continueShopping=$("continueShopping");
+/* =========================================================
+   FIREBASE CONFIG
+   IMPORTANT:
+   Replace these values with your real Firebase configuration.
+========================================================= */
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
 
-    const customerName=$("customerName"), customerPhone=$("customerPhone"),
-          customerCity=$("customerCity"), customerAddress=$("customerAddress"),
-          deliveryMethod=$("deliveryMethod");
+/* =========================================================
+   STORE CONFIG
+========================================================= */
+const phone = "212676484479";
+const STORAGE_KEY = "bilaleSportCart";
 
-    function saveCart(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
-    function openCart(){ cartDrawer.classList.add("active"); cartOverlay.classList.add("active"); document.body.style.overflow="hidden"; }
-    function closeCart(){ cartDrawer.classList.remove("active"); cartOverlay.classList.remove("active"); document.body.style.overflow=""; }
-    function money(v){ return Number(v).toFixed(2).replace(".",",")+" MAD"; }
-    function esc(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+/* Fallback products:
+   They are displayed only if Firebase cannot be used.
+   You can remove them once Firebase is configured. */
+const fallbackProducts = [
+    {
+        sku: "TA01-R",
+        brand: "Imperial",
+        name: "Espadrille TA01-R Rouge",
+        description: "Amorti EVA réactif, conçu pour la course sur route.",
+        price: 199,
+        oldPrice: 299,
+        promo: true,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"
+    },
+    {
+        sku: "TA02-BC",
+        brand: "Imperial",
+        name: "Espadrille TA02-BC Blanche",
+        description: "Tige en maille respirante, confort toute la journée.",
+        price: 249,
+        oldPrice: null,
+        promo: true,
+        image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800"
+    },
+    {
+        sku: "TA04-N",
+        brand: "Imperial",
+        name: "Espadrille TA04-N Noire",
+        description: "Semelle extérieure en caoutchouc résistant, antidérapante.",
+        price: 349,
+        oldPrice: null,
+        promo: false,
+        image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800"
+    },
+    {
+        sku: "NA01-R",
+        brand: "Imperial",
+        name: "Espadrille NA01-R Bleu",
+        description: "Design ergonomique pour entraînements intensifs.",
+        price: 399,
+        oldPrice: null,
+        promo: true,
+        image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800"
+    }
+];
 
-    cartButton.addEventListener("click",openCart);
-    cartClose.addEventListener("click",closeCart);
-    cartOverlay.addEventListener("click",closeCart);
-    continueShopping.addEventListener("click",closeCart);
+let cart = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-    document.querySelectorAll(".btn-add-cart").forEach(button=>{
-        button.addEventListener("click",()=>{
-            const card=button.closest(".product-card");
-            const name=button.dataset.name||"Produit";
-            const price=parseFloat(button.dataset.price)||0;
-            const image=card?.querySelector("img")?.src||"";
-            const sku=card?.querySelector(".bib")?.textContent.trim()||"";
-            const existing=cart.find(p=>p.name===name && p.sku===sku);
-            if(existing) existing.quantity++;
-            else cart.push({name,price,image,sku,quantity:1});
-            saveCart(); renderCart(); openCart();
+/* =========================================================
+   HELPERS
+========================================================= */
+const $ = id => document.getElementById(id);
+
+const cartButton = $("cartButton");
+const cartDrawer = $("cartDrawer");
+const cartOverlay = $("cartOverlay");
+const cartClose = $("cartClose");
+const cartItems = $("cartItems");
+const cartCount = $("cartCount");
+const cartTotal = $("cartTotal");
+const cartEmpty = $("cartEmpty");
+const cartFooter = $("cartFooter");
+const clearCart = $("clearCart");
+const checkout = $("whatsappCheckout");
+const continueShopping = $("continueShopping");
+
+const customerName = $("customerName");
+const customerPhone = $("customerPhone");
+const customerCity = $("customerCity");
+const customerAddress = $("customerAddress");
+const deliveryMethod = $("deliveryMethod");
+
+function saveCart() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+}
+
+function money(value) {
+    const number = Number(value) || 0;
+    return number.toFixed(2).replace(".", ",") + " MAD";
+}
+
+function esc(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function normalizeProduct(data, id = "") {
+    return {
+        id,
+        sku: String(data.sku ?? data.reference ?? data.ref ?? id ?? "").trim(),
+        brand: String(data.brand ?? "BILALE SPORT").trim(),
+        name: String(data.name ?? data.title ?? "Produit").trim(),
+        description: String(data.description ?? "").trim(),
+        price: Number(data.price ?? 0),
+        oldPrice: data.oldPrice == null || data.oldPrice === "" ? null : Number(data.oldPrice),
+        promo: Boolean(data.promo ?? false),
+        image: String(data.image ?? data.imageUrl ?? "").trim()
+    };
+}
+
+/* =========================================================
+   CART
+========================================================= */
+function openCart() {
+    cartDrawer.classList.add("active");
+    cartOverlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeCart() {
+    cartDrawer.classList.remove("active");
+    cartOverlay.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+function addToCart(product) {
+    const existing = cart.find(
+        item => item.name === product.name && item.sku === product.sku
+    );
+
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            sku: product.sku,
+            quantity: 1
         });
-    });
+    }
 
-    function renderCart(){
-        cartItems.innerHTML="";
-        let total=0, qty=0;
+    saveCart();
+    renderCart();
+    openCart();
+}
 
-        cart.forEach((p,i)=>{
-            const subtotal=p.price*p.quantity;
-            total+=subtotal; qty+=p.quantity;
-            const item=document.createElement("div");
-            item.className="cart-item";
-            item.innerHTML=`
-                <img class="cart-item-image" src="${p.image}" alt="${esc(p.name)}">
-                <div class="cart-item-info">
-                    <h4>${esc(p.name)}</h4>
-                    ${p.sku?`<div class="cart-item-price">Réf: ${esc(p.sku)}</div>`:""}
-                    <div class="cart-item-price">${money(p.price)}</div>
-                    <div class="quantity-control">
-                        <button type="button" class="quantity-minus" data-index="${i}">−</button>
-                        <span>${p.quantity}</span>
-                        <button type="button" class="quantity-plus" data-index="${i}">+</button>
-                    </div>
-                    <div class="cart-item-subtotal">Sous-total : ${money(subtotal)}</div>
+function renderCart() {
+    cartItems.innerHTML = "";
+
+    let total = 0;
+    let qty = 0;
+
+    cart.forEach((product, index) => {
+        const subtotal = product.price * product.quantity;
+        total += subtotal;
+        qty += product.quantity;
+
+        const item = document.createElement("div");
+        item.className = "cart-item";
+
+        item.innerHTML = `
+            <img
+                class="cart-item-image"
+                src="${esc(product.image)}"
+                alt="${esc(product.name)}"
+            >
+
+            <div class="cart-item-info">
+                <h4>${esc(product.name)}</h4>
+
+                ${product.sku
+                    ? `<div class="cart-item-price">Réf: ${esc(product.sku)}</div>`
+                    : ""}
+
+                <div class="cart-item-price">${money(product.price)}</div>
+
+                <div class="quantity-control">
+                    <button
+                        type="button"
+                        class="quantity-minus"
+                        data-index="${index}"
+                        aria-label="Diminuer la quantité"
+                    >−</button>
+
+                    <span>${product.quantity}</span>
+
+                    <button
+                        type="button"
+                        class="quantity-plus"
+                        data-index="${index}"
+                        aria-label="Augmenter la quantité"
+                    >+</button>
                 </div>
-                <button type="button" class="remove-item" data-index="${i}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>`;
-            cartItems.appendChild(item);
-        });
 
-        cartCount.textContent=qty;
-        cartTotal.textContent=money(total);
+                <div class="cart-item-subtotal">
+                    Sous-total : ${money(subtotal)}
+                </div>
+            </div>
 
-        if(cart.length===0){
-            cartEmpty.classList.add("active"); cartFooter.style.display="none"; cartItems.style.display="none";
-        }else{
-            cartEmpty.classList.remove("active"); cartFooter.style.display="block"; cartItems.style.display="block";
-        }
-        bindCartActions();
-    }
+            <button
+                type="button"
+                class="remove-item"
+                data-index="${index}"
+                aria-label="Supprimer"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        `;
 
-    function bindCartActions(){
-        document.querySelectorAll(".quantity-minus").forEach(b=>b.addEventListener("click",()=>{
-            const i=Number(b.dataset.index);
-            if(cart[i].quantity>1) cart[i].quantity--; else cart.splice(i,1);
-            saveCart(); renderCart();
-        }));
-        document.querySelectorAll(".quantity-plus").forEach(b=>b.addEventListener("click",()=>{
-            cart[Number(b.dataset.index)].quantity++;
-            saveCart(); renderCart();
-        }));
-        document.querySelectorAll(".remove-item").forEach(b=>b.addEventListener("click",()=>{
-            cart.splice(Number(b.dataset.index),1);
-            saveCart(); renderCart();
-        }));
-    }
-
-    clearCart.addEventListener("click",()=>{
-        if(!cart.length) return;
-        cart=[]; saveCart(); renderCart();
+        cartItems.appendChild(item);
     });
 
-    checkout.addEventListener("click",()=>{
-        if(!cart.length){ alert("Votre panier est vide."); return; }
+    cartCount.textContent = qty;
+    cartTotal.textContent = money(total);
 
-        const name=customerName.value.trim(), clientPhone=customerPhone.value.trim(),
-              city=customerCity.value.trim(), address=customerAddress.value.trim(),
-              delivery=deliveryMethod.value;
+    if (cart.length === 0) {
+        cartEmpty.classList.add("active");
+        cartFooter.style.display = "none";
+        cartItems.style.display = "none";
+    } else {
+        cartEmpty.classList.remove("active");
+        cartFooter.style.display = "block";
+        cartItems.style.display = "block";
+    }
+}
 
-        if(!name||!clientPhone||!city||!address){
-            alert("Veuillez remplir votre nom, téléphone, ville et adresse.");
-            return;
-        }
+/* Event delegation:
+   Works for static AND Firebase-generated product buttons. */
+document.addEventListener("click", event => {
+    const addButton = event.target.closest(".btn-add-cart");
 
-        let total=0;
-        let message="Bonjour, je veux confirmer ma commande  :\n\n";
-        message+="👤 INFORMATIONS CLIENT\n";
-        message+=`Nom: ${name}\nTéléphone: ${clientPhone}\nVille: ${city}\nAdresse: ${address}\nLivraison: ${delivery}\n\n`;
-        message+="🛒 PRODUITS\n";
-
-        cart.forEach((p,i)=>{
-            const subtotal=p.price*p.quantity; total+=subtotal;
-            message+=`\n${i+1}. ${p.name}\n`;
-            if(p.sku) message+=`Référence: ${p.sku}\n`;
-            message+=`Prix: ${money(p.price)}\nQuantité: ${p.quantity}\nSous-total: ${money(subtotal)}\n`;
+    if (addButton) {
+        const product = normalizeProduct({
+            sku: addButton.dataset.sku,
+            brand: addButton.dataset.brand,
+            name: addButton.dataset.name,
+            description: addButton.dataset.description,
+            price: addButton.dataset.price,
+            oldPrice: addButton.dataset.oldPrice,
+            promo: addButton.dataset.promo === "true",
+            image: addButton.dataset.image
         });
 
-        message+=`\n--------------------------\nTOTAL: ${money(total)}\n--------------------------\n\nMerci de confirmer ma commande.`;
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,"_blank");
+        addToCart(product);
+        return;
+    }
+
+    const plus = event.target.closest(".quantity-plus");
+    if (plus) {
+        const index = Number(plus.dataset.index);
+        if (cart[index]) cart[index].quantity++;
+        saveCart();
+        renderCart();
+        return;
+    }
+
+    const minus = event.target.closest(".quantity-minus");
+    if (minus) {
+        const index = Number(minus.dataset.index);
+
+        if (!cart[index]) return;
+
+        if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+        } else {
+            cart.splice(index, 1);
+        }
+
+        saveCart();
+        renderCart();
+        return;
+    }
+
+    const remove = event.target.closest(".remove-item");
+    if (remove) {
+        const index = Number(remove.dataset.index);
+        cart.splice(index, 1);
+        saveCart();
+        renderCart();
+    }
+});
+
+cartButton.addEventListener("click", openCart);
+cartClose.addEventListener("click", closeCart);
+cartOverlay.addEventListener("click", closeCart);
+continueShopping.addEventListener("click", closeCart);
+
+clearCart.addEventListener("click", () => {
+    if (!cart.length) return;
+
+    cart = [];
+    saveCart();
+    renderCart();
+});
+
+/* =========================================================
+   WHATSAPP CHECKOUT
+========================================================= */
+checkout.addEventListener("click", () => {
+    if (!cart.length) {
+        alert("Votre panier est vide.");
+        return;
+    }
+
+    const name = customerName.value.trim();
+    const clientPhone = customerPhone.value.trim();
+    const city = customerCity.value.trim();
+    const address = customerAddress.value.trim();
+    const delivery = deliveryMethod.value;
+
+    if (!name || !clientPhone || !city || !address) {
+        alert("Veuillez remplir votre nom, téléphone, ville et adresse.");
+        return;
+    }
+
+    let total = 0;
+
+    let message =
+        "Bonjour, je veux confirmer ma commande :\\n\\n" +
+        "👤 INFORMATIONS CLIENT\\n" +
+        `Nom: ${name}\\n` +
+        `Téléphone: ${clientPhone}\\n` +
+        `Ville: ${city}\\n` +
+        `Adresse: ${address}\\n` +
+        `Livraison: ${delivery}\\n\\n` +
+        "🛒 PRODUITS\\n";
+
+    cart.forEach((product, index) => {
+        const subtotal = product.price * product.quantity;
+        total += subtotal;
+
+        message +=
+            `\\n${index + 1}. ${product.name}\\n` +
+            (product.sku ? `Référence: ${product.sku}\\n` : "") +
+            `Prix: ${money(product.price)}\\n` +
+            `Quantité: ${product.quantity}\\n` +
+            `Sous-total: ${money(subtotal)}\\n`;
     });
+
+    message +=
+        "\\n--------------------------\\n" +
+        `TOTAL: ${money(total)}\\n` +
+        "--------------------------\\n\\n" +
+        "Merci de confirmer ma commande.";
+
+    window.open(
+        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener,noreferrer"
+    );
+});
+
+/* =========================================================
+   PRODUCT RENDERING
+========================================================= */
+function productCard(product) {
+    const oldPrice =
+        product.oldPrice && product.oldPrice > product.price
+            ? `<span class="old-price">${money(product.oldPrice)}</span>`
+            : "";
+
+    const promo =
+        product.promo
+            ? `<span class="badge-promo">Promo</span>`
+            : "";
+
+    return `
+        <article class="product-card">
+            ${product.sku ? `<span class="bib">${esc(product.sku)}</span>` : ""}
+            ${promo}
+
+            <div class="product-image">
+                <img
+                    src="${esc(product.image)}"
+                    alt="${esc(product.name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/800x600?text=BILALE+SPORT'"
+                >
+            </div>
+
+            <div class="product-info">
+                <span class="brand">${esc(product.brand)}</span>
+
+                <h3 class="product-title">${esc(product.name)}</h3>
+
+                <p class="product-description">
+                    ${esc(product.description)}
+                </p>
+
+                <div class="product-price">
+                    <span class="price">${money(product.price)}</span>
+                    ${oldPrice}
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-add-cart"
+                    data-name="${esc(product.name)}"
+                    data-price="${product.price}"
+                    data-image="${esc(product.image)}"
+                    data-sku="${esc(product.sku)}"
+                    data-brand="${esc(product.brand)}"
+                    data-description="${esc(product.description)}"
+                    data-old-price="${product.oldPrice ?? ""}"
+                    data-promo="${product.promo}"
+                >
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Commander
+                </button>
+            </div>
+        </article>
+    `;
+}
+
+function renderProducts(products) {
+    const grid = $("products-grid");
+
+    if (!products.length) {
+        grid.innerHTML = `
+            <div class="products-empty">
+                Aucun produit disponible pour le moment.
+            </div>
+        `;
+        updateStockCount(0);
+        return;
+    }
+
+    grid.innerHTML = products.map(productCard).join("");
+    updateStockCount(products.length);
+}
+
+function updateStockCount(count) {
+    const stockElement = document.querySelector(".hero-stats div:first-child b");
+    if (stockElement) {
+        stockElement.textContent = String(count).padStart(2, "0");
+    }
+}
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+function isFirebaseConfigured() {
+    return (
+        firebaseConfig.apiKey &&
+        firebaseConfig.authDomain &&
+        firebaseConfig.projectId &&
+        firebaseConfig.appId &&
+        !firebaseConfig.apiKey.startsWith("YOUR_") &&
+        !firebaseConfig.projectId.startsWith("YOUR_")
+    );
+}
+
+async function loadProductsFromFirebase() {
+    const grid = $("products-grid");
+
+    if (!isFirebaseConfigured()) {
+        console.warn("Firebase n'est pas encore configuré. Produits de démonstration utilisés.");
+        renderProducts(fallbackProducts);
+        return;
+    }
+
+    try {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const snapshot = await getDocs(collection(db, "products"));
+
+        const products = [];
+
+        snapshot.forEach(doc => {
+            products.push(normalizeProduct(doc.data(), doc.id));
+        });
+
+        renderProducts(products);
+    } catch (error) {
+        console.error("Erreur Firebase:", error);
+
+        grid.innerHTML = `
+            <div class="products-error">
+                <strong>Impossible de charger les produits Firebase.</strong>
+                <br>
+                Vérifiez votre configuration Firebase, Firestore et les règles de sécurité.
+                <br><br>
+                <small>Les produits de démonstration sont affichés ci-dessous.</small>
+            </div>
+        `;
+
+        setTimeout(() => renderProducts(fallbackProducts), 1200);
+    }
+}
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof GLightbox !== "undefined") {
+        GLightbox({
+            selector: ".glightbox"
+        });
+    }
 
     renderCart();
+    loadProductsFromFirebase();
 });
 </script>
 
