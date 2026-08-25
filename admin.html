@@ -3,149 +3,690 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>لوحة تحكم البائع الآمنة</title>
+
     <style>
-        body { font-family: Tahoma, sans-serif; background: #f4f4f9; padding: 20px; direction: rtl; margin: 0; }
-        .container { max-width: 500px; margin: 40px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #28a745; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        button:hover { background: #218838; }
-        .hidden { display: none !important; }
-        .error { color: red; font-size: 14px; text-align: center; }
-        .success { color: green; font-size: 14px; text-align: center; font-weight: bold; }
-        .logout-btn { background: #dc3545; margin-top: 15px; }
-        .logout-btn:hover { background: #c82333; }
+        body {
+            font-family: Tahoma, sans-serif;
+            background: #f4f4f9;
+            padding: 20px;
+            direction: rtl;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            margin-top: 15px;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- 1. شاشة تسجيل الدخول بالبريد وكلمة المرور -->
+    <!-- =========================
+         LOGIN
+    ========================== -->
+
     <div id="loginSection" class="container">
+
         <h2>تسجيل دخول البائع</h2>
-        <p style="text-align: center; color: #666;">أدخل بريدك الإلكتروني وكلمة المرور الخاصة بالإدارة</p>
-        <input type="email" id="adminEmail" placeholder="البريد الإلكتروني للبائع" required>
-        <input type="password" id="adminPassword" placeholder="كلمة المرور" required>
-        <button id="loginBtn">دخول</button>
+
+        <p style="text-align:center; color:#666;">
+            أدخل بريدك الإلكتروني وكلمة المرور الخاصة بالإدارة
+        </p>
+
+        <input
+            type="email"
+            id="adminEmail"
+            placeholder="البريد الإلكتروني للبائع"
+            required
+        >
+
+        <input
+            type="password"
+            id="adminPassword"
+            placeholder="كلمة المرور"
+            required
+        >
+
+        <button id="loginBtn">
+            دخول
+        </button>
+
         <p id="loginError" class="error"></p>
+
     </div>
 
-    <!-- 2. لوحة التحكم (مخفية افتراضياً ولا تظهر إلا للمصادق عليهم) -->
+
+    <!-- =========================
+         ADMIN DASHBOARD
+    ========================== -->
+
     <div id="adminDashboard" class="container hidden">
-        <h2>لوحة التحكم: إضافة منتج جديد</h2>
+
+        <h2>
+            لوحة التحكم: إضافة منتج جديد
+        </h2>
+
         <form id="productForm">
-            <label>اسم المنتج:</label>
-            <input type="text" id="productName" required placeholder="مثال: ساعة إلكترونية">
 
-            <label>سعر المنتج:</label>
-            <input type="number" id="productPrice" required placeholder="مثال: 200">
+            <label>
+                اسم المنتج:
+            </label>
 
-            <label>رابط صورة المنتج:</label>
-            <input type="url" id="productImage" required placeholder="https://... (رابط مباشر للصورة)">
+            <input
+                type="text"
+                id="productName"
+                required
+                placeholder="مثال: ساعة إلكترونية"
+            >
 
-            <label>وصف المنتج:</label>
-            <textarea id="productDesc" rows="3" placeholder="اكتب تفاصيل المنتج..."></textarea>
 
-            <button type="submit">إضافة المنتج للمتجر</button>
+            <label>
+                سعر المنتج:
+            </label>
+
+            <input
+                type="number"
+                id="productPrice"
+                required
+                placeholder="مثال: 200"
+            >
+
+
+            <label>
+                رابط صورة المنتج:
+            </label>
+
+            <input
+                type="url"
+                id="productImage"
+                required
+                placeholder="https://... (رابط مباشر للصورة)"
+            >
+
+
+            <label>
+                وصف المنتج:
+            </label>
+
+            <textarea
+                id="productDesc"
+                rows="3"
+                placeholder="اكتب تفاصيل المنتج..."
+            ></textarea>
+
+
+            <button type="submit">
+                إضافة المنتج للمتجر
+            </button>
+
         </form>
+
+
         <p id="statusMsg" class="success"></p>
-        
-        <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
+
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            تسجيل الخروج
+        </button>
+
     </div>
 
-    <!-- كود الاتصال بـ Firebase وتأمين الجلسة -->
-    <script type="module">
-        // 1. استيراد الدوال المطلوبة مع إعداداتك الجديدة
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // 2. إعدادات مشروعك في Firebase التي أرسلتها
+    <!-- =========================
+         FIREBASE
+    ========================== -->
+
+    <script type="module">
+
+        /*
+        ============================================
+        1. IMPORT FIREBASE
+        ============================================
+        */
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+        /*
+        ============================================
+        2. FIREBASE CONFIG
+        ============================================
+        */
+
         const firebaseConfig = {
+
             apiKey: "AIzaSyBrH6eVkW4OnJHehLNaz2h3bglvUg6ukoA",
-            authDomain: "storeproo.firebaseapp.com",
-            projectId: "storeproo",
-            storageBucket: "storeproo.firebasestorage.app",
-            messagingSenderId: "780069001386",
-            appId: "1:780069001386:web:677aa16ff49e2466ef98d3"
+
+            authDomain:
+                "storeproo.firebaseapp.com",
+
+            projectId:
+                "storeproo",
+
+            storageBucket:
+                "storeproo.firebasestorage.app",
+
+            messagingSenderId:
+                "780069001386",
+
+            appId:
+                "1:780069001386:web:677aa16ff49e2466ef98d3"
         };
 
-        // 3. تهيئة التطبيق
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
 
-        const loginSection = document.getElementById('loginSection');
-        const adminDashboard = document.getElementById('adminDashboard');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const loginError = document.getElementById('loginError');
+        /*
+        ============================================
+        3. INITIALIZE FIREBASE
+        ============================================
+        */
 
-        // مراقبة حالة المستخدم (إذا كان مسجلاً دخوله مسبقاً)
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const auth =
+            getAuth(app);
+
+
+        const db =
+            getFirestore(app);
+
+
+        /*
+        ============================================
+        4. HTML ELEMENTS
+        ============================================
+        */
+
+        const loginSection =
+            document.getElementById("loginSection");
+
+
+        const adminDashboard =
+            document.getElementById("adminDashboard");
+
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+
+        const loginError =
+            document.getElementById("loginError");
+
+
+        const form =
+            document.getElementById("productForm");
+
+
+        const statusMsg =
+            document.getElementById("statusMsg");
+
+
+        /*
+        ============================================
+        5. CHECK LOGIN STATE
+        ============================================
+        */
+
         onAuthStateChanged(auth, (user) => {
+
             if (user) {
-                loginSection.classList.add('hidden');
-                adminDashboard.classList.remove('hidden');
+
+                console.log(
+                    "المستخدم مسجل الدخول:",
+                    user.email
+                );
+
+                loginSection.classList.add("hidden");
+
+                adminDashboard.classList.remove("hidden");
+
             } else {
-                loginSection.classList.remove('hidden');
-                adminDashboard.classList.add('hidden');
+
+                console.log(
+                    "لا يوجد مستخدم مسجل الدخول"
+                );
+
+                loginSection.classList.remove("hidden");
+
+                adminDashboard.classList.add("hidden");
             }
+
         });
 
-        // عملية تسجيل الدخول
-        loginBtn.addEventListener('click', async () => {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
+
+        /*
+        ============================================
+        6. LOGIN
+        ============================================
+        */
+
+        loginBtn.addEventListener("click", async () => {
+
+            const email =
+                document.getElementById("adminEmail").value.trim();
+
+
+            const password =
+                document.getElementById("adminPassword").value;
+
+
             loginError.innerText = "";
 
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                console.error(error);
-                loginError.innerText = "فشل الدخول: تأكد من الإيميل أو كلمة المرور!";
+
+            if (!email || !password) {
+
+                loginError.innerText =
+                    "الرجاء إدخال البريد الإلكتروني وكلمة المرور.";
+
+                return;
             }
-        });
 
-        // عملية تسجيل الخروج
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error(error);
-            }
-        });
-
-        // إضافة المنتج لقاعدة البيانات
-        const form = document.getElementById('productForm');
-        const statusMsg = document.getElementById('statusMsg');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const image = document.getElementById('productImage').value;
-            const description = document.getElementById('productDesc').value;
 
             try {
-                await addDoc(collection(db, "products"), {
-                    name: name,
-                    price: price,
-                    image: image,
-                    description: description,
-                    createdAt: new Date()
-                });
 
-                statusMsg.style.color = "green";
-                statusMsg.innerText = "تم إضافة المنتج بنجاح وتحديث المتجر!";
-                form.reset();
-                setTimeout(() => { statusMsg.innerText = ""; }, 4000);
+                const userCredential =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+
+                console.log(
+                    "تم تسجيل الدخول بنجاح:",
+                    userCredential.user.email
+                );
+
+
             } catch (error) {
-                console.error("خطأ:", error);
-                statusMsg.style.color = "red";
-                statusMsg.innerText = "حدث خطأ أثناء الإضافة (تأكد من صلاحيات الحساب)!";
+
+                console.error(
+                    "Login Error Code:",
+                    error.code
+                );
+
+                console.error(
+                    "Login Error Message:",
+                    error.message
+                );
+
+
+                loginError.innerText =
+                    "فشل تسجيل الدخول: " +
+                    error.message;
             }
+
         });
+
+
+        /*
+        ============================================
+        7. LOGOUT
+        ============================================
+        */
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    console.log(
+                        "تم تسجيل الخروج"
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Logout Error:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+        ============================================
+        8. ADD PRODUCT
+        ============================================
+        */
+
+        form.addEventListener(
+            "submit",
+            async (e) => {
+
+                e.preventDefault();
+
+
+                /*
+                -----------------------------
+                GET USER
+                -----------------------------
+                */
+
+                const user =
+                    auth.currentUser;
+
+
+                /*
+                -----------------------------
+                CHECK AUTHENTICATION
+                -----------------------------
+                */
+
+                if (!user) {
+
+                    statusMsg.style.color = "red";
+
+                    statusMsg.innerText =
+                        "يجب تسجيل الدخول أولاً.";
+
+                    return;
+                }
+
+
+                /*
+                -----------------------------
+                GET FORM DATA
+                -----------------------------
+                */
+
+                const name =
+                    document
+                        .getElementById("productName")
+                        .value
+                        .trim();
+
+
+                const price =
+                    Number(
+                        document
+                            .getElementById("productPrice")
+                            .value
+                    );
+
+
+                const image =
+                    document
+                        .getElementById("productImage")
+                        .value
+                        .trim();
+
+
+                const description =
+                    document
+                        .getElementById("productDesc")
+                        .value
+                        .trim();
+
+
+                /*
+                -----------------------------
+                VALIDATION
+                -----------------------------
+                */
+
+                if (!name) {
+
+                    statusMsg.style.color = "red";
+
+                    statusMsg.innerText =
+                        "أدخل اسم المنتج.";
+
+                    return;
+                }
+
+
+                if (!price || price <= 0) {
+
+                    statusMsg.style.color = "red";
+
+                    statusMsg.innerText =
+                        "أدخل سعراً صحيحاً.";
+
+                    return;
+                }
+
+
+                if (!image) {
+
+                    statusMsg.style.color = "red";
+
+                    statusMsg.innerText =
+                        "أدخل رابط صورة المنتج.";
+
+                    return;
+                }
+
+
+                /*
+                -----------------------------
+                SHOW LOADING
+                -----------------------------
+                */
+
+                statusMsg.style.color = "#555";
+
+                statusMsg.innerText =
+                    "جاري إضافة المنتج...";
+
+
+                /*
+                -----------------------------
+                ADD TO FIRESTORE
+                -----------------------------
+                */
+
+                try {
+
+                    const docRef =
+                        await addDoc(
+                            collection(
+                                db,
+                                "products"
+                            ),
+                            {
+
+                                name: name,
+
+                                price: price,
+
+                                image: image,
+
+                                description:
+                                    description,
+
+                                createdAt:
+                                    serverTimestamp(),
+
+                                createdBy:
+                                    user.uid,
+
+                                createdByEmail:
+                                    user.email
+
+                            }
+                        );
+
+
+                    /*
+                    -----------------------------
+                    SUCCESS
+                    -----------------------------
+                    */
+
+                    console.log(
+                        "تمت إضافة المنتج:",
+                        docRef.id
+                    );
+
+
+                    statusMsg.style.color =
+                        "green";
+
+
+                    statusMsg.innerText =
+                        "✅ تم إضافة المنتج بنجاح!";
+
+
+                    form.reset();
+
+
+                    setTimeout(() => {
+
+                        statusMsg.innerText = "";
+
+                    }, 4000);
+
+
+                } catch (error) {
+
+                    /*
+                    =================================
+                    IMPORTANT:
+                    SHOW REAL FIREBASE ERROR
+                    =================================
+                    */
+
+                    console.error(
+                        "Firebase Error Code:",
+                        error.code
+                    );
+
+
+                    console.error(
+                        "Firebase Error Message:",
+                        error.message
+                    );
+
+
+                    console.error(
+                        "Firebase Full Error:",
+                        error
+                    );
+
+
+                    statusMsg.style.color =
+                        "red";
+
+
+                    statusMsg.innerText =
+                        "❌ فشل إضافة المنتج";
+
+
+                    /*
+                    عرض الخطأ الحقيقي في Console
+                    */
+
+                    alert(
+                        "Firebase Error:\n\n" +
+                        error.code +
+                        "\n\n" +
+                        error.message
+                    );
+
+                }
+
+            }
+        );
+
     </script>
+
 </body>
 </html>
